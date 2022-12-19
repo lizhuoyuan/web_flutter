@@ -23,7 +23,7 @@ jobs:
       - run: flutter upgrade
       - run: flutter config --enable-web
       # 构建 web 产物
-      - run:   flutter build web --release --base-href="/web_flutter/"
+      - run: flutter build web --release --base-href="/web_flutter/"
 
       - name: deploy
         # 表示使用 actions-gh-page 这个脚本来部署
