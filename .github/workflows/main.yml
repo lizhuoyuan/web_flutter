@@ -33,7 +33,7 @@ runs:
     - run: flutter config --enable-web
       shell: bash
       working-directory: ${{inputs.workingDir}}
-    - run: flutter build web --release --base-href ${{inputs.baseHref}} ${{inputs.customArgs}}
+    - run: flutter build web --release --base-href ${{inputs.baseHref}}
       shell: bash
       working-directory: ${{inputs.workingDir}}
     - name: deploy
