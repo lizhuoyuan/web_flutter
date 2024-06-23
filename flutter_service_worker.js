@@ -2,36 +2,48 @@
 const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
-const RESOURCES = {
-  "main.dart.js": "20c76d1c4cd385a6c068bf6638b59a5d",
-"canvaskit/canvaskit.wasm": "3de12d898ec208a5f31362cc00f09b9e",
-"canvaskit/profiling/canvaskit.wasm": "371bc4e204443b0d5e774d64a046eb99",
-"canvaskit/profiling/canvaskit.js": "c21852696bc1cc82e8894d851c01921a",
-"canvaskit/canvaskit.js": "97937cb4c2c2073c968525a3e08c86a3",
-"manifest.json": "3b82ada5e50200a26b5f922f6286389d",
-"icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
-"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
-"flutter.js": "1cfe996e845b3a8a33f57607e8b09ee4",
-"assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b9",
-"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "57d849d738900cfd590e9adc7e208250",
-"assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
-"assets/fonts/MaterialIcons-Regular.otf": "6124df5c7543e211fd42ea954c94c47c",
-"assets/NOTICES": "688792ee408b2d37c65f247f12a7e48b",
-"index.html": "188ed329723fa3dc8ccd88077d54d023",
-"/": "188ed329723fa3dc8ccd88077d54d023",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
-"version.json": "69bf8169bfebcdacfa9fdea72ddbba88"
-};
 
+const RESOURCES = {"icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
+"icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
+"icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
+"icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
+"flutter.js": "f31737fb005cd3a3c6bd9355efd33061",
+"canvaskit/skwasm.worker.js": "bfb704a6c714a75da9ef320991e88b03",
+"canvaskit/skwasm.js": "f17a293d422e2c0b3a04962e68236cc2",
+"canvaskit/canvaskit.js.symbols": "365a61023a6b250a85ca34004d74d93c",
+"canvaskit/skwasm.js.symbols": "704e58848c3923c62346aa25cc091e4d",
+"canvaskit/chromium/canvaskit.js.symbols": "67368b743632c7b0fe64794367a919de",
+"canvaskit/chromium/canvaskit.js": "87325e67bf77a9b483250e1fb1b54677",
+"canvaskit/chromium/canvaskit.wasm": "9a530414a3c5c4ed9a62e6a2876c081a",
+"canvaskit/canvaskit.js": "5fda3f1af7d6433d53b24083e2219fa0",
+"canvaskit/canvaskit.wasm": "afdee7721d75678a861b51038aff7dcd",
+"canvaskit/skwasm.wasm": "aba50d7996c181be615a8a53f582c71c",
+"flutter_bootstrap.js": "df6d6a9df8242f73192b1b0aea7bad19",
+"version.json": "69bf8169bfebcdacfa9fdea72ddbba88",
+"favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"main.dart.js": "890f058c45cdf34db0ca5bac3efb2c72",
+"assets/NOTICES": "c5d64e38d7bc6adf1200a0184fb0af25",
+"assets/AssetManifest.bin": "1ae23ec54ea432ba68b7027e1628b2b2",
+"assets/assets/images/qr_code.png": "15970b73cea48038b018f68212a4fb59",
+"assets/assets/images/xuexiao.jpg": "836ad4a6d3ce1e9e01bfad295cc898f0",
+"assets/assets/images/avatar.png": "2e43accd4a766d2a744d995fb2db3340",
+"assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
+"assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "e986ebe42ef785b27164c36a9abc7818",
+"assets/AssetManifest.bin.json": "d4e49ddaab9dc256c9e7ca58ddf0912d",
+"assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
+"assets/fonts/MaterialIcons-Regular.otf": "bacbf645c09c128d711f0917d1332603",
+"assets/AssetManifest.json": "66a888d3c6e11cb4bb610835b0e8ab93",
+"index.html": "56682ce108cf58db90abc7b2470be0f5",
+"/": "56682ce108cf58db90abc7b2470be0f5",
+"manifest.json": "3b82ada5e50200a26b5f922f6286389d"};
 // The application shell files that are downloaded before a service worker can
 // start.
-const CORE = [
-  "main.dart.js",
+const CORE = ["main.dart.js",
 "index.html",
-"assets/AssetManifest.json",
+"flutter_bootstrap.js",
+"assets/AssetManifest.bin.json",
 "assets/FontManifest.json"];
+
 // During install, the TEMP cache is populated with the application shell files.
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -42,7 +54,6 @@ self.addEventListener("install", (event) => {
     })
   );
 });
-
 // During activate, the cache is populated with the temp files downloaded in
 // install. If this service worker is upgrading from one with a saved
 // MANIFEST, then use this to retain unchanged resource files.
@@ -64,6 +75,8 @@ self.addEventListener("activate", function(event) {
         await caches.delete(TEMP);
         // Save the manifest to make future upgrades efficient.
         await manifestCache.put('manifest', new Response(JSON.stringify(RESOURCES)));
+        // Claim client to enable caching on first launch
+        self.clients.claim();
         return;
       }
       var oldManifest = await manifest.json();
@@ -89,6 +102,8 @@ self.addEventListener("activate", function(event) {
       await caches.delete(TEMP);
       // Save the manifest to make future upgrades efficient.
       await manifestCache.put('manifest', new Response(JSON.stringify(RESOURCES)));
+      // Claim client to enable caching on first launch
+      self.clients.claim();
       return;
     } catch (err) {
       // On an unhandled exception the state of the cache cannot be guaranteed.
@@ -99,7 +114,6 @@ self.addEventListener("activate", function(event) {
     }
   }());
 });
-
 // The fetch handler redirects requests for RESOURCE files to the service
 // worker cache.
 self.addEventListener("fetch", (event) => {
@@ -139,7 +153,6 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
-
 self.addEventListener('message', (event) => {
   // SkipWaiting can be used to immediately activate a waiting service worker.
   // This will also require a page refresh triggered by the main worker.
@@ -152,7 +165,6 @@ self.addEventListener('message', (event) => {
     return;
   }
 });
-
 // Download offline will check the RESOURCES for all files not in the cache
 // and populate them.
 async function downloadOffline() {
@@ -173,7 +185,6 @@ async function downloadOffline() {
   }
   return contentCache.addAll(resources);
 }
-
 // Attempt to download the resource online before falling back to
 // the offline cache.
 function onlineFirst(event) {
